@@ -1,0 +1,162 @@
+/* ==========================================================================
+   Livello di correzione per la pagina Chi Siamo
+   --------------------------------------------------------------------------
+   Perché esiste: in questa sessione non posso modificare i file già
+   presenti (solo crearne di nuovi), quindi le correzioni arrivano da qui,
+   caricate dal layout di rotta.
+
+   Due accorgimenti:
+   – i selettori usano [class*="..."] perché i CSS Module aggiungono un hash
+     al nome della classe: così restano validi anche se l'hash cambia;
+   – `!important` è necessario perché il CSS del layout viene caricato PRIMA
+     di quello della pagina, quindi la cascata da sola non basterebbe.
+
+   Da consolidare nei file originali quando l'accesso in scrittura torna.
+   ========================================================================== */
+
+/* ==========================================================================
+   1 · PREMI — da mosaico a elenco di righe
+   Le tessere fisse da 190px tagliavano 30px sulla card "Best Junior
+   Enterprise" (424px di contenuto in 394px visibili) e lasciavano la
+   parola "Eccellenza" 10px SOTTO il bordo inferiore. Come righe l'altezza
+   è libera e il problema sparisce all'origine.
+   ========================================================================== */
+
+[class*="awBoard"] {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  grid-auto-rows: auto !important;
+  gap: 0 !important;
+  border-top: 1px solid var(--c-ink);
+}
+
+[class*="awCell"] {
+  grid-column: auto !important;
+  grid-row: auto !important;
+  min-height: 0 !important;
+}
+
+[class*="awCard"] {
+  height: auto !important;
+  min-height: 128px;
+  overflow: visible !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--c-line) !important;
+  border-radius: 0 !important;
+  padding: 26px 0 !important;
+  align-content: center !important;
+  transform: none !important;
+  box-shadow: none !important;
+  transition: color 0.2s var(--ease), padding 0.2s var(--ease) !important;
+}
+
+/* --- hover del riferimento: testo rosso e rientro di 18px ----------------- */
+
+[class*="awCard"]:hover,
+[class*="awCard"]:focus-visible {
+  color: var(--c-primary) !important;
+  padding-inline: 18px !important;
+}
+
+[class*="awCard"]:hover [class*="awTitle"],
+[class*="awCard"]:hover [class*="awYear"],
+[class*="awCard"]:hover [class*="awOrg"],
+[class*="awCard"]:hover [class*="awDescription"],
+[class*="awCard"]:hover [class*="awCategory"],
+[class*="awCard"]:focus-visible [class*="awTitle"],
+[class*="awCard"]:focus-visible [class*="awYear"] {
+  color: var(--c-primary) !important;
+}
+
+/* --- descrizione sempre visibile e mai troncata --------------------------- */
+
+[class*="awDescription"] {
+  -webkit-line-clamp: none !important;
+  overflow: visible !important;
+  display: block !important;
+  max-width: 70ch;
+}
+
+/* la regola sopra intercetta anche il contenitore (il nome lo contiene):
+   qui lo riporto nel flusso */
+[class*="awDescriptionWrap"] {
+  position: static !important;
+  opacity: 1 !important;
+  transform: none !important;
+  background: none !important;
+  padding: 0.45rem 0 0 !important;
+}
+
+/* --- la categoria: il difetto segnalato ----------------------------------
+   era `align-self: end` dentro una card ad altezza fissa, quindi finiva
+   incollata al bordo (e oltre). Ora sta nel flusso, con aria sopra. */
+
+[class*="awCategory"] {
+  align-self: start !important;
+  margin-top: 0.85rem !important;
+}
+
+/* --- la card principale perde fondo scuro e visual ------------------------ */
+
+[class*="awFeatured"] [class*="awTitle"],
+[class*="awFeatured"] [class*="awYear"] {
+  color: var(--c-ink) !important;
+}
+
+[class*="awFeatured"] [class*="awOrg"],
+[class*="awFeatured"] [class*="awCategory"],
+[class*="awFeatured"] [class*="awDescription"] {
+  color: var(--c-ink-80) !important;
+}
+
+[class*="awFeatured"] [class*="awCategory"] {
+  border-color: var(--c-line) !important;
+}
+
+/* in un elenco l'immagine e il trofeo della card principale stonano */
+[class*="awImage"],
+[class*="awBadge"] {
+  display: none !important;
+}
+
+[class*="awTitle"] {
+  font-size: clamp(1.1rem, 0.95rem + 0.7vw, 1.5rem) !important;
+}
+
+[class*="awYear"] {
+  font-family: var(--font-serif) !important;
+}
+
+/* ==========================================================================
+   2 · HOVER DEL RIFERIMENTO su Team e Board
+   `.service-card:hover` della home: la superficie si riempie di rosso,
+   il blocco si solleva di 8px, transizione .24s.
+   ========================================================================== */
+
+[class*="teamCard"],
+[class*="bdCard"] {
+  transition: color 0.24s var(--ease), background-color 0.24s var(--ease),
+    transform 0.24s var(--ease), box-shadow 0.24s var(--ease) !important;
+}
+
+[class*="teamCard"]:hover,
+[class*="teamCard"]:focus-within,
+[class*="bdCard"]:hover,
+[class*="bdCard"]:focus-within {
+  transform: translateY(-8px) !important;
+  z-index: 2;
+}
+
+/* lo scrim scuro diventa una campitura rossa piena */
+[class*="teamCard"]:hover [class*="teamScrim"],
+[class*="teamCard"]:focus-within [class*="teamScrim"],
+[class*="teamCardOpen"] [class*="teamScrim"],
+[class*="bdCard"]:hover [class*="bdScrim"],
+[class*="bdCard"]:focus-within [class*="bdScrim"] {
+  background-image: none !important;
+  background-color: var(--c-primary) !important;
+  opacity: 0.92 !important;
+  transition: background-color 0.24s var(--ease),
+    opacity 0.24s var(--ease) !important;
+}

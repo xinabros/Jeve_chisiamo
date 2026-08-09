@@ -1,0 +1,310 @@
+/* ==========================================================================
+   Premi — elenco di righe, sul modello di `.award-row` della home.
+   Griglia 0.3fr / 0.55fr / 1.45fr / 1.35fr, gap 24px, min-height 128px,
+   riga separata da un filo sottile. In hover il testo passa al rosso e la
+   riga rientra di 18px.
+
+   Le righe hanno altezza libera: è questo che elimina il problema del
+   mosaico precedente, dove le tessere fisse da 190px tagliavano contenuto.
+   ========================================================================== */
+
+.section {
+  padding-block: var(--sp-section);
+  background: var(--c-white);
+}
+
+/* --- Intestazione + filtri ------------------------------------------------ */
+
+.head {
+  display: grid;
+  gap: 1.6rem;
+  margin-bottom: clamp(2rem, 1.4rem + 2vw, 3rem);
+}
+
+@media (min-width: 900px) {
+  .head {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+}
+
+.eyebrow {
+  display: block;
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-primary);
+  margin-bottom: 1.1rem;
+}
+
+.title {
+  font-size: var(--fs-h2);
+  max-width: 16ch;
+}
+
+.intro {
+  margin-top: 1.2rem;
+  max-width: 54ch;
+  font-size: var(--fs-lead);
+  line-height: 1.7;
+  color: var(--c-ink-80);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* i radio restano nel DOM ma invisibili: i filtri funzionano in CSS puro,
+   quindi anche senza JavaScript */
+.filterInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding-inline: 14px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--c-ink-80);
+  cursor: pointer;
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease),
+    background-color 0.2s var(--ease);
+}
+
+.chip:hover {
+  color: var(--c-primary);
+  border-color: var(--c-primary);
+}
+
+.filterInput:checked + .chip {
+  background: var(--c-ink);
+  border-color: var(--c-ink);
+  color: var(--c-white);
+}
+
+.filterInput:focus-visible + .chip {
+  outline: 3px solid var(--c-primary);
+  outline-offset: 3px;
+}
+
+/* --- Elenco --------------------------------------------------------------- */
+
+.list {
+  list-style: none;
+  border-top: 1px solid var(--c-ink);
+}
+
+.cell {
+  display: block;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 0.3fr 0.55fr 1.45fr 1.35fr;
+  gap: 24px;
+  align-items: center;
+  min-height: 128px;
+  padding-block: 1.4rem;
+  border-bottom: 1px solid var(--c-line);
+  color: var(--c-ink);
+  transition: color 0.2s var(--ease), padding 0.2s var(--ease);
+}
+
+/* l'effetto della home: testo rosso e rientro */
+.row:hover,
+.row:focus-visible {
+  color: var(--c-primary);
+  padding-inline: 18px;
+  outline: none;
+}
+
+.row:focus-visible {
+  outline: 3px solid var(--c-primary);
+  outline-offset: -3px;
+}
+
+.index {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--c-ink-40);
+  transition: color 0.2s var(--ease);
+}
+
+.row:hover .index,
+.row:focus-visible .index {
+  color: var(--c-primary);
+}
+
+.year {
+  font-family: var(--font-serif);
+  font-size: clamp(1.2rem, 1rem + 0.8vw, 1.7rem);
+  letter-spacing: -0.03em;
+}
+
+.rowTitle {
+  font-size: clamp(1.1rem, 0.95rem + 0.7vw, 1.5rem);
+  color: inherit;
+}
+
+.org {
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--c-ink-80);
+}
+
+.category {
+  display: inline-block;
+  margin-top: 0.55rem;
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--c-ink-40);
+}
+
+/* nessun troncamento: la riga cresce quanto serve */
+.description {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--c-ink-80);
+}
+
+/* --- Comparsa allo scroll -------------------------------------------------- */
+
+.cell {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+.listVisible .cell {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Mobile: la riga si impila ------------------------------------------- */
+
+@media (max-width: 760px) {
+  .row {
+    grid-template-columns: auto 1fr;
+    gap: 0.35rem 14px;
+    min-height: 0;
+    padding-block: 1.5rem;
+  }
+
+  .index {
+    grid-row: 1;
+  }
+
+  .year {
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  .main,
+  .description {
+    grid-column: 1 / -1;
+  }
+
+  .description {
+    margin-top: 0.5rem;
+  }
+
+  .row:hover,
+  .row:focus-visible {
+    padding-inline: 10px;
+  }
+}
+
+/* --- Filtri per categoria (CSS puro) --------------------------------------
+   Ogni radio nasconde le righe delle altre categorie. Copre gli indici 0-5
+   di `awardCategories`: aggiungendone altre, estendi l'elenco. */
+
+.section:has(.f0:checked) .cell:not([data-category="0"]),
+.section:has(.f1:checked) .cell:not([data-category="1"]),
+.section:has(.f2:checked) .cell:not([data-category="2"]),
+.section:has(.f3:checked) .cell:not([data-category="3"]),
+.section:has(.f4:checked) .cell:not([data-category="4"]),
+.section:has(.f5:checked) .cell:not([data-category="5"]) {
+  display: none;
+}
+
+/* --- "Mostra altri" -------------------------------------------------------- */
+
+.extra {
+  display: none;
+}
+
+.section:has(.moreInput:checked) .extra {
+  display: block;
+}
+
+.moreRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.2rem;
+}
+
+.moreInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.moreButton {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding-inline: 20px;
+  border: 1px solid var(--c-ink);
+  border-radius: var(--radius);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.moreButton:hover {
+  background: var(--c-ink);
+  color: var(--c-white);
+}
+
+.moreInput:focus-visible + .moreButton {
+  outline: 3px solid var(--c-primary);
+  outline-offset: 3px;
+}
+
+.lessLabel {
+  display: none;
+}
+
+.section:has(.moreInput:checked) .moreLabel {
+  display: none;
+}
+
+.section:has(.moreInput:checked) .lessLabel {
+  display: inline;
+}
