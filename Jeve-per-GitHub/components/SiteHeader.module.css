@@ -1,0 +1,107 @@
+/* ==========================================================================
+   Header del sito — ricostruito sul modello della home.
+   Trasparente e sovrapposto all'hero: le pagine iniziano sotto di esso
+   grazie a --header-h.
+   ========================================================================== */
+
+.header {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  z-index: 50;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+/* --- Wordmark ------------------------------------------------------------
+   Segnaposto tipografico: la home usa un logo PNG. Per sostituirlo, metti
+   il file in public/ e scambia questo <span> con un <img>. */
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  letter-spacing: -0.045em;
+  color: var(--c-primary);
+}
+
+.brandMark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius);
+  background: var(--c-primary);
+  color: var(--c-white);
+  font-size: 0.95rem;
+  line-height: 1;
+  padding-bottom: 2px;
+}
+
+/* --- Navigazione ---------------------------------------------------------- */
+
+.nav {
+  display: none;
+  align-items: center;
+  gap: clamp(1.2rem, 0.6rem + 1.8vw, 2.4rem);
+}
+
+@media (min-width: 900px) {
+  .nav {
+    display: flex;
+  }
+}
+
+.link {
+  position: relative;
+  font-size: 0.875rem;
+  color: var(--c-ink);
+  padding-block: 0.35rem;
+  transition: color var(--dur) var(--ease);
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--c-primary);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--dur) var(--ease);
+}
+
+.link:hover {
+  color: var(--c-primary);
+}
+
+.link:hover::after,
+.link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* pagina corrente */
+.linkCurrent {
+  color: var(--c-primary);
+}
+
+.linkCurrent::after {
+  transform: scaleX(1);
+}
+
+.cta {
+  flex-shrink: 0;
+}
