@@ -1,0 +1,210 @@
+/* ==========================================================================
+   Premi — ripresa 1:1 della sezione "Riconoscimenti" della home v2.
+   Tutti i valori sono quelli letti dal CSS calcolato di
+   v2homejeve.netlify.app (.awards-section / .section-heading / .award-row).
+   ========================================================================== */
+
+.section {
+  position: relative;
+  padding-block: var(--sp-section);
+  background: var(--c-surface);
+}
+
+/* --- Intestazione a due colonne ------------------------------------------- */
+
+.heading {
+  display: grid;
+  gap: 28px;
+  margin-bottom: 42px;
+}
+
+@media (min-width: 900px) {
+  .heading {
+    grid-template-columns: 1.5fr 0.7fr;
+    align-items: end;
+    gap: 80px;
+  }
+}
+
+.label {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-primary);
+}
+
+.title {
+  margin: 17px 0 0;
+  font-family: var(--font-serif);
+  font-size: clamp(47px, 5vw, 76px);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.accent {
+  font-style: italic;
+  color: var(--c-primary);
+}
+
+.intro {
+  max-width: 390px;
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--c-ink-80);
+}
+
+/* --- Elenco --------------------------------------------------------------- */
+
+.list {
+  border-top: 1px solid var(--c-ink);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 32px 64px 88px minmax(220px, 1.45fr) minmax(220px, 1.2fr);
+  align-items: center;
+  gap: clamp(14px, 2vw, 28px);
+  min-height: 146px;
+  border-bottom: 1px solid var(--c-line);
+  color: var(--c-ink);
+  transition: color 0.2s var(--ease), padding 0.2s var(--ease),
+    opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+
+.row:hover,
+.row:focus-visible {
+  color: var(--c-primary);
+  padding-inline: 18px;
+  outline: none;
+}
+
+.row:focus-visible {
+  outline: 3px solid var(--c-primary);
+  outline-offset: -3px;
+}
+
+/* v2 usa #a4a4a4, che su bianco dà 2.49:1 — sotto la soglia AA. Scurito a
+   #767676 (4.6:1) mantenendo lo stesso peso visivo. */
+.index {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: #767676;
+}
+
+.row time {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* --- Trofeo ---------------------------------------------------------------- */
+
+.image {
+  display: grid;
+  place-items: center;
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(217, 16, 35, 0.09) 0%,
+    rgba(245, 243, 240, 0.72) 57%,
+    rgba(0, 0, 0, 0) 74%
+  );
+}
+
+.image img {
+  display: block;
+  width: 78px;
+  height: 78px;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 12px rgba(25, 25, 25, 0.1));
+  transition: transform 0.3s var(--ease);
+}
+
+.row:hover .image img,
+.row:focus-visible .image img {
+  transform: scale(1.08) rotate(-2deg);
+}
+
+/* --- Testi ----------------------------------------------------------------- */
+
+.row h3 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(25px, 2.3vw, 37px);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: inherit;
+}
+
+.row p {
+  max-width: 380px;
+  margin: 0;
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--c-ink-80);
+}
+
+/* --- Comparsa allo scroll -------------------------------------------------- */
+
+.row {
+  opacity: 0;
+  transform: translateY(16px);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+.listVisible .row {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Sotto i 900px la riga si impila -------------------------------------- */
+
+@media (max-width: 900px) {
+  .row {
+    grid-template-columns: 32px 64px 1fr;
+    gap: 10px 14px;
+    min-height: 0;
+    padding-block: 1.6rem;
+  }
+
+  .image {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    width: 68px;
+    height: 68px;
+  }
+
+  .image img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .row h3,
+  .row p {
+    grid-column: 1 / -1;
+  }
+
+  .row h3 {
+    font-size: clamp(22px, 6vw, 30px);
+  }
+
+  .row:hover,
+  .row:focus-visible {
+    padding-inline: 10px;
+  }
+}
