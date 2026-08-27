@@ -1,0 +1,148 @@
+/* ==========================================================================
+   Footer del sito — ricostruito sul modello della home: banda scura,
+   quattro colonne, riga legale in fondo.
+   ========================================================================== */
+
+.footer {
+  background: var(--c-ink);
+  color: var(--c-paper-80);
+  padding-block: 4.7rem 1.9rem;
+}
+
+.grid {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 700px) {
+  .grid {
+    grid-template-columns: 1.6fr 1fr 1fr;
+  }
+}
+
+@media (min-width: 1000px) {
+  .grid {
+    grid-template-columns: 1.9fr 1fr 1fr 1.2fr;
+  }
+}
+
+/* --- Colonna del marchio -------------------------------------------------- */
+
+.brand {
+  display: inline-block;
+  font-family: var(--font-serif);
+  font-size: 1.9rem;
+  letter-spacing: -0.05em;
+  color: var(--c-white);
+}
+
+.brandSub {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.85rem;
+  color: var(--c-paper-60);
+}
+
+.claim {
+  margin-top: 1.1rem;
+  max-width: 30ch;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--c-paper-60);
+}
+
+/* --- Colonne di link ------------------------------------------------------ */
+
+.colTitle {
+  font-family: var(--font-sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-paper-60);
+  margin-bottom: 1rem;
+}
+
+.list {
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.link {
+  font-size: 0.9rem;
+  color: var(--c-paper-80);
+  transition: color var(--dur) var(--ease);
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--c-white);
+}
+
+/* --- Recapiti ------------------------------------------------------------- */
+
+.address {
+  font-style: normal;
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--c-paper-60);
+}
+
+.fiscal {
+  margin-top: 0.7rem;
+  font-size: 0.78rem;
+  color: var(--c-paper-60);
+}
+
+/* --- Riga legale ---------------------------------------------------------- */
+
+.legal {
+  margin-top: 3.4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--c-line-dark);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  font-size: var(--fs-eyebrow);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-paper-60);
+}
+
+.legalLinks {
+  display: flex;
+  gap: 1.4rem;
+}
+
+/* Mobile: i link del footer stavano a 18px di altezza, sotto la soglia
+   comoda per il tocco. Qui diventano righe da 44px. */
+
+@media (max-width: 699px) {
+  .list {
+    gap: 0;
+  }
+
+  .link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 15px;
+  }
+
+  .address {
+    font-size: 15px;
+  }
+
+  .legal {
+    font-size: 11px;
+    gap: 1rem;
+  }
+
+  .legalLinks .link {
+    min-height: 44px;
+  }
+}
